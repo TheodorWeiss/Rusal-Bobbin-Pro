@@ -72,6 +72,8 @@ Rusal-Bobbin-Pro
 
 │   └── package.json     # Зависимости NPM
 
+├── azempik_rusal_presentation.pptx # Финальная презентация
+
 └── README.md
 
 ### *Требования к колонкам Data Mapping*
