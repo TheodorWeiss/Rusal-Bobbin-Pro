@@ -404,6 +404,19 @@ function SingleBobbin({ bobbin }) {
         drawBobbin(ctx, bobbin);
     }, [bobbin]);
 
+    const downloadBobbinJSON = () => {
+        const dataStr = JSON.stringify(bobbin, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${bobbin.bobbin_id}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
     const eff = bobbin.efficiency_metrics || {};
     const cfg = bobbin.layout_configuration || {};
 
@@ -416,6 +429,7 @@ function SingleBobbin({ bobbin }) {
                     ширина {bobbin.source_material.bobbin_width_mm} мм ·
                     длина {bobbin.source_material.bobbin_length_m} м
                 </span>
+
                 <span style={{
                     ...styles.badge,
                     background: eff.waste_percentage <= 15 ? '#d4edda' : '#fce4e4',
@@ -434,6 +448,21 @@ function SingleBobbin({ bobbin }) {
                 <span>Заказов: <b>{bobbin.cutting_map.length}</b></span>
                 <span>Межкройный рез: <b>{cfg.inter_cut_mm} мм</b></span>
                 <span>Кромка: <b>{cfg.edge_trim_mm} мм</b></span>
+                <button
+                    onClick={downloadBobbinJSON}
+                    style={{
+                        background: '#3498db',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        padding: '4px 12px',
+                        cursor: 'pointer',
+                        fontSize: '11px',
+                        marginLeft: 'auto'
+                    }}
+                >
+                    JSON
+                </button>
             </div>
 
             <div style={styles.legend}>
