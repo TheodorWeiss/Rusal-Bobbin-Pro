@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# macOS мусор
+.DS_Store
+
+# Node.js
+node_modules/
+build/
+dist/
+
+# Виртуальные окружения
+.env
+.venv/
+venv/
+
+# Логи
+*.log
+
+# IDE
+.vscode/
+.idea/
