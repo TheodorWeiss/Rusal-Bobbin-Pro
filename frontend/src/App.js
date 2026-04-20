@@ -13,6 +13,7 @@ function App() {
     const handleOrdersSelect = (e) => {
     if (e.target.files && e.target.files[0]) {
         setOrdersFile(e.target.files[0]);
+        setError('');
     }
     };
 
@@ -60,6 +61,19 @@ function App() {
     const summary = jsonData?.summary || null;
     const bobbins = jsonData?.bobbins || [];
 
+    const downloadJSON = () => {
+        if (!jsonData) return;
+        const dataStr = JSON.stringify(jsonData, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `plan_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
     return (
         <div className="app">
             <h1>РУСАЛ — Раскрой фольги</h1>
@@ -119,6 +133,24 @@ function App() {
                             </div>
                         </div>
                     </div>
+
+                    <button
+                        onClick={downloadJSON}
+                        style={{
+                            display: 'block',
+                            margin: '20px auto',
+                            padding: '10px 20px',
+                            background: '#2ecc71',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '6px',
+                            cursor: 'pointer',
+                            fontSize: '14px',
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        Скачать JSON
+                    </button>
 
                     <Bobbin data={jsonData} />
                 </>
